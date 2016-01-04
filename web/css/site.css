@@ -89,3 +89,61 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+
+
+
+
+.message {
+display: block;
+float:left;
+clear:left;
+	color: #000;
+	margin: 0px 0px 10px 0px;
+background: #EEE;
+border-radius: 15px;
+border: 2px solid #DDD;
+padding: 10px;
+}
+
+.my_message {
+background: #DFA;
+border-color: #AC8;
+}
+
+.message p {
+margin-bottom: 0px;
+}
+
+.message .username {
+	margin: 0px 0px 0px 0px;
+color:#009;
+	font-weight: bold;
+}
+
+.message .content {
+margin-left: 2em;
+}
+
+.message .timestamp {
+text-align: right;
+	margin: 0px 0px 0px 0px;
+	color: #777;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
