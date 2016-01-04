@@ -1,0 +1,52 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "backend_user".
+ *
+ * @property string $username
+ * @property string $password
+ * @property string $authKey
+ * @property boolean $is_admin
+ * @property integer $id
+ */
+class BackendUser extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'backend_user';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['is_admin'], 'boolean'],
+            [['username'], 'string', 'max' => 32],
+            [['password'], 'string', 'max' => 64],
+            [['authKey'], 'string', 'max' => 50]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Username',
+            'password' => 'Password',
+            'authKey' => 'Auth Key',
+            'is_admin' => 'Is Admin',
+            'id' => 'ID',
+        ];
+    }
+}
