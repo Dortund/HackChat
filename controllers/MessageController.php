@@ -8,6 +8,7 @@ use app\models\MessageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * MessageController implements the CRUD actions for Message model.
@@ -17,6 +18,22 @@ class MessageController extends Controller
     public function behaviors()
     {
         return [
+		'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'list'],
+                        'roles' => ['@'],
+                    ],
+		    [
+			'allow' => true,
+			'matchCallback'=> function ($rule, $action) {
+				return Yii::$app->user->identity != null && Yii::$app->user->identity->is_admin;
+			}
+		    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

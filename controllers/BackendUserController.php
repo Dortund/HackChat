@@ -3,20 +3,42 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Message;
-use app\models\MessageSearch;
+use app\models\BackendUser;
+use app\models\BackendUserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
- * MessageController implements the CRUD actions for Message model.
+ * BackendUserController implements the CRUD actions for BackendUser model.
  */
-class MessageController extends Controller
+class BackendUserController extends Controller
 {
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['login', 'create', 'signupsucces'],
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['logout'],
+                        'roles' => ['@'],
+                    ],
+		    [
+			'allow' => true,
+			'matchCallback'=> function ($rule, $action) {
+				return Yii::$app->user->identity != null && Yii::$app->user->identity->is_admin;
+			}
+		    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -26,21 +48,13 @@ class MessageController extends Controller
         ];
     }
 
-	public function actionList() {
-		$messages = Message::find()->where(['is_visible' => true])->orderBy('timestamp')->all();
-
-		return $this->render('list', [
-		    'messages' => $messages,
-		]);
-}
-
     /**
-     * Lists all Message models.
+     * Lists all BackendUser models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new MessageSearch();
+        $searchModel = new BackendUserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -50,7 +64,7 @@ class MessageController extends Controller
     }
 
     /**
-     * Displays a single Message model.
+     * Displays a single BackendUser model.
      * @param integer $id
      * @return mixed
      */
@@ -62,16 +76,16 @@ class MessageController extends Controller
     }
 
     /**
-     * Creates a new Message model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Creates a new BackendUser model.
+     * If creation is successful, the browser will be redirected to the 'signupSucces' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Message();
+        $model = new BackendUser();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(array('signupsucces', 'username' => $model->username));
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -79,8 +93,14 @@ class MessageController extends Controller
         }
     }
 
+	public function actionSignupsucces($username) {
+		return $this->render('signupsucces', [
+		        'username' => $username,
+		]);
+	}
+
     /**
-     * Updates an existing Message model.
+     * Updates an existing BackendUser model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,7 +119,7 @@ class MessageController extends Controller
     }
 
     /**
-     * Deletes an existing Message model.
+     * Deletes an existing BackendUser model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -112,15 +132,15 @@ class MessageController extends Controller
     }
 
     /**
-     * Finds the Message model based on its primary key value.
+     * Finds the BackendUser model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Message the loaded model
+     * @return BackendUser the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Message::findOne($id)) !== null) {
+        if (($model = BackendUser::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

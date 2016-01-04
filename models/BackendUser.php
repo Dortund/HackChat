@@ -9,7 +9,6 @@ use Yii;
  *
  * @property string $username
  * @property string $password
- * @property string $authKey
  * @property boolean $is_admin
  * @property integer $id
  */
@@ -32,7 +31,6 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
             [['is_admin'], 'boolean'],
             [['username'], 'string', 'max' => 32],
             [['password'], 'string', 'max' => 64],
-            [['authKey'], 'string', 'max' => 50]
         ];
     }
 
@@ -44,45 +42,50 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
         return [
             'username' => 'Username',
             'password' => 'Password',
-            'authKey' => 'Auth Key',
             'is_admin' => 'Is Admin',
             'id' => 'ID',
         ];
     }
 
-	public static function findIdentity($id)
+	public function beforeSave($insert) {
+		BackendUser::find()->where('id != -1')->count() == 0 ? $this->is_admin = true : $this->is_admin = false;
+
+		$this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
+
+		return parent::beforeSave($insert);
+	}
+
+	 public static function findIdentity($id)
 	 {
-	 return static::findOne($id);
+	 	return static::findOne($id);
 	 }
 	 
 	 public static function findIdentityByAccessToken($token, $type = null)
 	 {
-	 throw new NotSupportedException();//I don't implement this method because I don't have any access token column in my database
+	 	throw new NotSupportedException();
 	 }
 	 
 	 public function getId()
 	 {
-	 return $this->id;
+	 	return $this->id;
 	 }
 	 
 	 public function getAuthKey()
 	 {
-	 return $this->authKey;//Here I return a value of my authKey column
+		throw new NotSupportedException();
 	 }
 	 
 	 public function validateAuthKey($authKey)
 	 {
-	 return $this->authKey === $authKey;
+		throw new NotSupportedException();
 	 }
 	 public static function findByUsername($username)
 	 {
-	 return self::findOne(['username'=>$username]);
+	 	return self::findOne(['username'=>$username]);
 	 }
 	 
 	 public function validatePassword($password)
 	 {
-echo "asdfasdfasdfasdfasdfasdf<br><br><br><br><br><br><br><br><br>asdf;lafdal;fkja;lsjfk<br>";
-echo $password . " --- " . $this->password;
-	 return $this->password === $password;
+	 	return Yii::$app->getSecurity()->validatePassword($password, $this->password);
 	 }
 }

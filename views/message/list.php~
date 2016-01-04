@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\BackendUser;
+use yii\helpers\HtmlPurifier;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Message */
@@ -16,12 +17,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?php Html::encode($this->title) ?></h1>
 
     <?php
-//print_r($messages);
-//echo "<br>";
-//echo count($messages) . "<br>";
+$res;
+count(BackendUser::find()->where('id != null')->all()) == 0 ? $res='admin' : $res='nonono';
+echo $res . '<br>';
+echo BackendUser::find()->where('id != -1')->count();
+
 	foreach($messages as $message) {
-//echo "message<br>";
-		echo HTML::encode(BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>");
+		//echo HTML::encode(BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>");
+		//echo BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>";
+		echo HtmlPurifier::process(Parsedown::instance()->text(BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>"));
 	}
 
 

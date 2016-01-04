@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use Parsedown;
+use yii\helpers\HtmlPurifier;
 
 /**
  * This is the model class for table "messages".
@@ -56,7 +57,7 @@ class Message extends \yii\db\ActiveRecord
 		$this->creator_id = Yii::$app->user->identity->id;
 		$this->is_visible = true;
 
-		$this->content = Parsedown::instance()->text($this->content);
+		//$this->content = HtmlPurifier::process(Parsedown::instance()->text($this->content));
 
 		return parent::beforeSave($insert);
 	}
