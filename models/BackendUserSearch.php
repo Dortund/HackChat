@@ -18,7 +18,7 @@ class BackendUserSearch extends BackendUser
     public function rules()
     {
         return [
-            [['username', 'password', 'authKey'], 'safe'],
+            [['username', 'password'], 'safe'],
             [['is_admin'], 'boolean'],
             [['id'], 'integer'],
         ];
@@ -62,8 +62,7 @@ class BackendUserSearch extends BackendUser
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'authKey', $this->authKey]);
+            ->andFilterWhere(['like', 'password', $this->password]);
 
         return $dataProvider;
     }
