@@ -28,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		if (Yii::$app->user->identity->id == $message->creator_id)
 			$c = "\"message my_message\"";
 
-		$name = HtmlPurifier::process(BackendUser::findOne($message->creator_id)->username);
-		$stuffs = HtmlPurifier::process(Parsedown::instance()->text($message->content));
+		$name = BackendUser::findOne($message->creator_id)->username;
+		$stuffs = Parsedown::instance()->text($message->content);
 
 		echo "<li class=" . $c . "><h5 class=\"username\">" . $name . " says: </h5><div class=\"content\">" . $stuffs . "</div><h6 class=\"timestamp\">posted at: " . $message->timestamp . "</h6></li>";
 

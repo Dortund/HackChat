@@ -12,6 +12,6 @@ $this->title = 'Sign up succes';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php echo 'Congratulations! Your account with username: \'' . Html::encode($username) . '\' has been succesfully created.' ?>
+    <?php echo 'Congratulations! Your account with username: \'' . $username . '\' has been succesfully created.' ?>
 
 </div>
