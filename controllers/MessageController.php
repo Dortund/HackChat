@@ -44,10 +44,17 @@ class MessageController extends Controller
     }
 
 	public function actionList() {
-		$messages = Message::find()->where(['is_visible' => true])->orderBy('timestamp')->all();
+		$messages = Message::find()->where(['is_visible' => true])->orderBy('timestamp desc')->all();
+
+		$model = new Message();
+		if ($model->load(Yii::$app->request->post())) {
+			$model->save();
+			$this->redirect(['list']);
+		}
 
 		return $this->render('list', [
 		    'messages' => $messages,
+		    'model' => $model,
 		]);
 }
 
@@ -88,7 +95,7 @@ class MessageController extends Controller
         $model = new Message();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['list']);
         } else {
             return $this->render('create', [
                 'model' => $model,

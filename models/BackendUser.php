@@ -28,9 +28,11 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
     public function rules()
     {
         return [
+            [['username'], 'required'],
             [['is_admin'], 'boolean'],
             [['username'], 'string', 'max' => 32],
             [['password'], 'string', 'max' => 64],
+            [['username'], 'unique']
         ];
     }
 

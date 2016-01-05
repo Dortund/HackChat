@@ -53,12 +53,10 @@ class Message extends \yii\db\ActiveRecord
     }
 
 	public function beforeSave($insert) {
-		//$this->timestamp = new CDbExpression('NOW()');
-		$this->creator_id = Yii::$app->user->identity->id;
-		$this->is_visible = true;
-
-		//$this->content = HtmlPurifier::process(Parsedown::instance()->text($this->content));
-
+		if ($this->isNewRecord) {
+			$this->is_visible = true;
+			$this->creator_id = Yii::$app->user->identity->id;
+		}
 		return parent::beforeSave($insert);
 	}
 }

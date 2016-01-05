@@ -16,17 +16,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?php Html::encode($this->title) ?></h1>
 	<ul>
+
+<?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+
     <?php
+	echo '<i>p.s. Refresh the page to see new messages.</i><br><br>';
 	foreach($messages as $message) {
 		$c = "\"message\"";
 		if (Yii::$app->user->identity->id == $message->creator_id)
 			$c = "\"message my_message\"";
-		//echo HTML::encode(BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>");
 
-		//echo BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>";
-		echo HtmlPurifier::process(Parsedown::instance()->text(BackendUser::findOne($message->creator_id)->username . " says: <br>" . $message->content . "<br>posted at: " . $message->timestamp . "<br><br>"));
+		$name = HtmlPurifier::process(BackendUser::findOne($message->creator_id)->username);
+		$stuffs = HtmlPurifier::process(Parsedown::instance()->text($message->content));
 
-		echo "<li class=" . $c . "><h5 class=\"username\">" . BackendUser::findOne($message->creator_id)->username . " says: </h5><div class=\"content\">" . $message->content . "</div><h6 class=\"timestamp\">posted at: " . $message->timestamp . "</h6></li>";
+		echo "<li class=" . $c . "><h5 class=\"username\">" . $name . " says: </h5><div class=\"content\">" . $stuffs . "</div><h6 class=\"timestamp\">posted at: " . $message->timestamp . "</h6></li>";
 
 	}
 

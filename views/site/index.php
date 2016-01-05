@@ -29,7 +29,7 @@ $this->title = 'My Yii Application';
             <div class="col-lg-4">
                 <h2>Absolute NO support!</h2>
 
-                <p>And with NO we mean NO. No contact form. No moderators. No bothering me on the can. We just do not care.</p>
+                <p>And with NO we mean NO. No contact form. No moderators. No bothering us during hardcore gaming sessions. We just do not care.</p>
             </div>
         </div>
 
