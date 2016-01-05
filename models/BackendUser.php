@@ -52,8 +52,6 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
 	public function beforeSave($insert) {
 		BackendUser::find()->where('id != -1')->count() == 0 ? $this->is_admin = true : $this->is_admin = false;
 
-		$this->password = Yii::$app->getSecurity()->generatePasswordHash($this->password);
-
 		return parent::beforeSave($insert);
 	}
 
@@ -88,6 +86,6 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
 	 
 	 public function validatePassword($password)
 	 {
-	 	return Yii::$app->getSecurity()->validatePassword($password, $this->password);
+	 	return $this->password === $password;
 	 }
 }
