@@ -83,6 +83,7 @@ class BackendUserController extends Controller
     public function actionCreate()
     {
         $model = new BackendUser();
+	$model->is_admin = false;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(array('signupsucces', 'username' => $model->username));
