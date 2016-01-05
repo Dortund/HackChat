@@ -51,7 +51,7 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
 
 	public function beforeSave($insert) {
 		if (BackendUser::find()->where('id != -1')->count() == 0) {
-			 $this->is_admin = true
+			 $this->is_admin = true;
 		}
 
 		return parent::beforeSave($insert);
