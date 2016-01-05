@@ -41,7 +41,7 @@ AppAsset::register($this);
                 ['label' => 'Login', 'url' => ['/site/login']] :
                 ['label' => 'Messages', 'url' => ['/message/list']],
             Yii::$app->user->isGuest ?
-                ['label' => 'Sign up', 'url' => ['ADD_LINK']] :
+                ['label' => 'Sign up', 'url' => ['backend-user/create']] :
                 [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
