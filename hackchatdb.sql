@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `backend_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `backend_user` (
-  `username` varchar(32) DEFAULT NULL,
+  `username` varchar(32) NOT NULL,
   `password` varchar(64) DEFAULT NULL,
-  `authKey` varchar(50) DEFAULT NULL,
   `is_admin` bit(1) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `backend_user` (
 
 LOCK TABLES `backend_user` WRITE;
 /*!40000 ALTER TABLE `backend_user` DISABLE KEYS */;
-INSERT INTO `backend_user` VALUES ('admin','admin2',NULL,'',1);
+INSERT INTO `backend_user` VALUES ('admin','$2y$13$pmLBEtwbetkGP7OTtYvi.ef2Y4lYN.4xwqvJ0njHonZ2ysiTnETUm','',23),('wouter','$2y$13$J1a/0qHoYUI2hs31u3vaGer/D6KKVLfTng6x0Fm5Lt7TjfP7y6Way','\0',24),('matthijs','$2y$13$1qLPP6mylGnWiHzDdDYyIuXEfpmOA2uubQRejoMKs.3c0utsvZU9m','\0',25),('wouter2','$2y$13$7IoYyrFWruiBreW7p9kLBefW9Q9rPI/cmPQ8piz4uljQnWlbWn87i','\0',26);
 /*!40000 ALTER TABLE `backend_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,12 +51,12 @@ DROP TABLE IF EXISTS `messages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content` varchar(1024) DEFAULT NULL,
   `creator_id` int(11) DEFAULT NULL,
   `is_visible` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,34 +65,8 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,'2016-01-04 13:59:49','Hoi allemaal',1,''),(2,'2016-01-04 14:06:18','<p><b>test</b></p>',1,''),(3,'2016-01-04 14:42:48','<p>&lt;?php echo \'php rules XSS\'; ?&gt;</p>',1,''),(4,'2016-01-04 14:43:55','<script>alert(\'attacked\')</script>',1,'');
+INSERT INTO `messages` VALUES (10,'2016-01-04 23:31:47','<b>Ik ben niet dik</b>',23,''),(11,'2016-01-04 23:34:14','<i>Ikke wel</i>',25,''),(12,'2016-01-04 23:55:05','Right...',23,''),(13,'2016-01-04 23:01:20','srsly.. guys..',23,''),(14,'2016-01-04 23:06:21','0 for effort',23,''),(15,'2016-01-04 23:06:39','0 for effort',23,''),(16,'2016-01-04 23:08:07','0 for effort',23,''),(17,'2016-01-04 23:32:13','wait.. testing',23,'\0'),(18,'2016-01-04 23:09:45','test3',23,''),(19,'2016-01-04 23:10:00','ok, this works',23,''),(20,'2016-01-05 00:10:04','asdfasdfasdf',23,''),(21,'2016-01-05 00:10:11','asdfafrwadasdf asdfg vad vfa',23,''),(22,'2016-01-05 00:12:30','Here\'s our logo (hover to see the title text):\r\n\r\nInline-style: \r\n![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png \"Logo Title Text 1\")\r\n\r\nReference-style: \r\n![alt text][logo]\r\n\r\n[logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png \"Logo Title Text 2\"\r\n',24,''),(23,'2016-01-05 00:12:55','<a href=\"http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE\r\n\" target=\"_blank\"><img src=\"http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg\" \r\nalt=\"IMAGE ALT TEXT HERE\" width=\"240\" height=\"180\" border=\"10\" /></a>',24,''),(24,'2016-01-05 00:13:20','[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)',24,''),(25,'2016-01-05 00:22:22','is mijn naam gvd al geclaimt :(',26,''),(26,'2016-01-05 00:30:19','LOLZ XD',24,'');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) DEFAULT NULL,
-  `password` varchar(64) DEFAULT NULL,
-  `is_admin` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'wouter','groen',''),(2,'matthijs','amesz','\0'),(3,'matthijs2','amesz','\0'),(7,'matthijs3','amesz','\0'),(8,'matthijs2','amesz','\0');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -104,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-04 15:53:36
+-- Dump completed on 2016-01-05  1:49:32
