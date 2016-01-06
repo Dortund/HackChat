@@ -21,3 +21,5 @@ If you have a different database name or password, change the entries in config/
 You should now be able to view the page on <web-accesible foler>/hackchat/web
 
 You can now login as admin using username: admin, password: admin.
+
+If you are looking at the unsafe version, the admin login will not work. I trust you will be able use the weaknesses in the site to create your own.
