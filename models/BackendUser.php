@@ -83,7 +83,7 @@ class BackendUser extends \yii\db\ActiveRecord  implements \yii\web\IdentityInte
 	 }
 	 public static function findByUsername($username)
 	 {
-	 	return self::findOne(['username'=>$username]);
+	 	return self::findBySql('SELECT * FROM backend_user WHERE username LIKE \'' . $username . '\';')->one();
 	 }
 	 
 	 public function validatePassword($password)

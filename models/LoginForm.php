@@ -42,6 +42,9 @@ class LoginForm extends Model
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
+
+		//$res = Yii::$app->getDb()->createCommand('SELECT * FROM kaas')->query();
+
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
@@ -70,7 +73,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = BackendUser::findByUsername($this->username);
+            $this->_user = BackendUser::findBySql('SELECT * FROM backend_user WHERE username LIKE \'' . $this->username . '\';')->one();
         }
 
         return $this->_user;
